@@ -1,7 +1,9 @@
 // @flow
 
-const { h, render, Component, Color } = require('ink')
-const { TimerView } = require('../components/TimerView')
+import { h, render, Component, Color } from 'ink'
+import { TimerView } from '../components/TimerView'
+import Notifier from 'node-notifier'
+import { ding } from '../helpers/ding'
 
 export type Settings = {
   cycleLength: number,
@@ -82,6 +84,14 @@ class App extends Component {
         startedAt: this.state.now
       }
     })
+
+    // Broadcast a notification
+    this.sendNotification()
+  }
+
+  /** Sends a notification */
+  sendNotification = () => {
+    ding()
   }
 
   /* Gets elapsed time in the current cycle in milliseconds */
