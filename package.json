@@ -1,0 +1,23 @@
+{
+  "name": "passtime",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "ink": "^0.5.1"
+  },
+  "scripts": {
+    "dev": "babel-node src/index.js",
+    "build": "babel src -d lib",
+    "watch": "babel src -d lib --watch"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-transform-react-jsx": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "eslint": "^5.7.0",
+    "prettier": "^1.14.3"
+  }
+}
