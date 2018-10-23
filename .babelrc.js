@@ -1,5 +1,6 @@
 module.exports = {
   presets: [
+    '@babel/preset-flow',
     [
       '@babel/preset-env',
       {
@@ -8,6 +9,7 @@ module.exports = {
     ]
   ],
   plugins: [
+    '@babel/plugin-proposal-class-properties',
     [
       '@babel/plugin-transform-react-jsx',
       {
