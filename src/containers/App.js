@@ -1,6 +1,12 @@
 // @flow
 
 const { h, render, Component, Color } = require('ink')
+const { TimerView } = require('../components/TimerView')
+
+export type Settings = {
+  cycleLength: number,
+  fps: number
+}
 
 export type Cycle = {
   startedAt: Date,
@@ -8,9 +14,7 @@ export type Cycle = {
 }
 
 export type State = {
-  settings: {
-    cycleLength: number
-  },
+  settings: Settings,
 
   // Current cycle
   cycle: Cycle,
@@ -31,7 +35,8 @@ class App extends Component {
 
     this.state = {
       settings: {
-        cycleLength: 3000
+        cycleLength: 4000,
+        fps: 3
       },
       cycle: {
         startedAt: new Date()
@@ -44,6 +49,14 @@ class App extends Component {
   tick = () => {
     this.flush()
     this.setState({ now: new Date() })
+    this.timer = setTimeout(this.tick, this.getTimerInterval())
+  }
+
+  /** Return how long a tick should be. */
+  getTimerInterval = () => {
+    const { settings } = this.state
+    const fps = Math.min(settings.fps || 60, 60)
+    return 1000 / fps
   }
 
   flush = () => {
@@ -89,52 +102,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.timer = setInterval(() => {
-      this.tick()
-    }, 30)
+    this.tick()
   }
 
   componentWillUnmount() {
     clearInterval(this.timer)
   }
 }
-
-/**
- * Timer
- */
-
-const TimerView = ({ root }) => {
-  const delta = root.getCycleElapsed()
-  const percent = root.getCyclePercent()
-  const { cycles } = root.state
-
-  return (
-    <div>
-      {cycles.map((cycle: Cycle) => {
-        return (
-          <div>
-            <span>{' ✓ '}</span>
-            <Progress value={1} isDone />
-          </div>
-        )
-      })}
-
-      <div>
-        <span>{' > '}</span>
-        <Progress value={percent} isNow />
-      </div>
-    </div>
-  )
-}
-
-const Progress = ({ value, isDone, isNow }) => {
-  const length = 40
-  const leftLength = Math.round(value * length)
-  const rightLength = length - leftLength
-
-  return '' + Array(leftLength + 1).join('|') + Array(rightLength + 1).join('-')
-}
-
 /*
  * Export
  */
