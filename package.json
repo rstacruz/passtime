@@ -5,8 +5,10 @@
   "license": "MIT",
   "dependencies": {
     "ink": "^0.5.1",
+    "meow": "^5.0.0",
     "node-notifier": "^5.3.0",
-    "play-sound": "^1.1.2"
+    "play-sound": "^1.1.2",
+    "pretty-ms": "^4.0.0"
   },
   "scripts": {
     "dev": "babel-node src/index.js",

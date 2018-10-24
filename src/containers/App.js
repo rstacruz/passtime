@@ -2,8 +2,8 @@
 
 import { h, render, Component, Color } from 'ink'
 import { TimerView } from '../components/TimerView'
-import Notifier from 'node-notifier'
 import { ding } from '../helpers/ding'
+import stringToMs from 'ms'
 
 export type Settings = {
   cycleLength: number,
@@ -27,6 +27,10 @@ export type State = {
   now: Date
 }
 
+export type Props = {
+  cycleLength?: string
+}
+
 /**
  * App
  */
@@ -35,9 +39,11 @@ class App extends Component {
   constructor(props) {
     super(props)
 
+    const cycleLength = stringToMs(props.cycleLength || '20m')
+
     this.state = {
       settings: {
-        cycleLength: 4000,
+        cycleLength: cycleLength,
         fps: 3
       },
       cycle: {

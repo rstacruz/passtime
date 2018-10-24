@@ -2,11 +2,16 @@
 
 import { h, render, Component, Color } from 'ink'
 import type { App } from '../containers/App'
+import prettyMs from 'pretty-ms'
 
 export type TimerViewProps = {
   root: App,
   indentLength: number
 }
+
+/** Converts to string */
+const toMs = (elapsed: number): string =>
+  prettyMs(elapsed, { secDecimalDigits: 0 })
 
 /**
  * Timer
@@ -15,12 +20,19 @@ export type TimerViewProps = {
 const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const elapsed = root.getCycleElapsed()
   const percent = root.getCyclePercent()
-  const { cycles } = root.state
+  const { cycles, settings } = root.state
   const indent = Array(indentLength + 1).join(' ')
+  const cycleLength = toMs(settings.cycleLength)
 
   return (
     <div>
       <div />
+      <div>
+        <Color red>{'→  '}</Color>
+        <Color bold>{cycleLength}</Color> intervals, let's go!
+      </div>
+      <div />
+
       {cycles.map((cycle: Cycle) => {
         return (
           <div>
@@ -35,7 +47,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
         {indent}
         <Progress value={percent} isNow />
         <span>{'  '}</span>
-        <span>{Math.floor(elapsed / 1000)}s</span>
+        <span>{toMs(elapsed)}</span>
       </div>
     </div>
   )

@@ -1,7 +1,8 @@
-# ink-starter-kit
+# passtime
 
-Simple project boilerplate for [ink] projects.
+## Usage
 
-- Includes babel transpilation
-
-[ink]: https://github.com/vadimdemedes/ink
+```sh
+# Alert every 15 minutes
+passtime 15m
+```
