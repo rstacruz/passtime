@@ -33,14 +33,9 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
       <div>
         <Color red>{'→  '}</Color>
         <Color bold>{startTimeLabel}</Color>
+        {' '}
+        at {cycleLength} intervals
       </div>
-
-      <div>
-        {indent}
-        <Color bold>{cycleLength}</Color> intervals, let's go!
-      </div>
-
-      <div />
 
       {cycles.map((cycle: Cycle) => {
         return (
