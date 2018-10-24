@@ -16,6 +16,8 @@
     "build": "babel src -d lib",
     "watch": "babel src -d lib --watch --verbose",
     "flow": "flow",
+    "prettier:check": "prettier --list-different 'src/**/*.js'",
+    "prettier:fix": "prettier --write 'src/**/*.js'",
     "lint": "eslint 'src/**/*.js'"
   },
   "bin": {
