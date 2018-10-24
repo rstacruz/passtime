@@ -12,8 +12,11 @@
   },
   "scripts": {
     "dev": "babel-node src/index.js",
-    "build": "babel src -d lib",
+    "build": "babel src -d lib; chmod +x lib/index.js",
     "watch": "babel src -d lib --watch"
+  },
+  "bin": {
+    "passtime": "lib/index.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
