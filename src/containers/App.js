@@ -23,7 +23,9 @@ export type ThemeData = {}
 export type Theme = {
   accent: ThemeData,
   mute: ThemeData,
-  time: ThemeData
+  time: ThemeData,
+  finishedCycle: string,
+  currentCycle: string
 }
 
 export type State = {
@@ -59,11 +61,13 @@ class App extends Component {
       theme: {
         accent: { green: true },
         time: { bold: true },
-        mute: { gray: true }
+        mute: { gray: true },
+        finishedCycle: '▪',
+        currentCycle: '·'
       },
       settings: {
         cycleLength: cycleLength,
-        fps: cycleLength < 10000 ? 8 : cycleLength < 40000 ? 3 : 1,
+        fps: cycleLength < 10000 ? 8 : cycleLength < 40000 ? 4 : 2,
         message: props.message
       },
       cycle: {

@@ -14,9 +14,9 @@ export const SideAlign = ({ width, right, left }) => {
 
   return (
     <span>
-      {leftStr}
+      {left}
       {Array(spaces + 1).join(' ')}
-      {rightStr}
+      {right}
     </span>
   )
 }
@@ -47,7 +47,7 @@ export class MiddleAlign extends Component {
     return (
       <span>
         {Array(padding + 1).join('\n')}
-        {str}
+        {children}
       </span>
     )
   }
