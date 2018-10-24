@@ -10,7 +10,7 @@
 
 <br>
 
-<img src='https://user-images.githubusercontent.com/74385/47461907-878e5e00-d814-11e8-8363-7c30c7107e92.png'>
+<img src='https://user-images.githubusercontent.com/74385/47462328-9e818000-d815-11e8-934b-cbdaacff9e50.png'>
 
 Passtime will subtly let you know every 30 minutes that passes (or a custom interval). Great for people who often get [hyperfocused] in their work.
 

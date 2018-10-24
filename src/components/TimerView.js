@@ -41,7 +41,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const indent = Array(indentLength + 1).join(' ')
   const cycleLength = toMs(settings.cycleLength)
   const startTimeLabel = root.formatTime(root.getStartTime())
-  const nowLabel = root.formatTime(now)
+  const nowLabel = root.formatTime(now).toUpperCase()
   const elapsedLabel = toMs(elapsed) || "Let's go!"
 
   const finishedCyclesLabel = cycles.length ? (
