@@ -4,6 +4,7 @@ import { h, render, Component, Color } from 'ink'
 import { TimerView } from '../components/TimerView'
 import { ding } from '../helpers/ding'
 import stringToMs from 'ms'
+import format from 'date-fns/format'
 
 export type Settings = {
   cycleLength: number,
@@ -54,7 +55,21 @@ class App extends Component {
     }
   }
 
-  tick = () => {
+  /** Returns the absolute start time */
+  getStartTime = (): Date => {
+    const { cycles } = this.state
+    const cycle = cycles[0] || this.state.cycle
+    return cycle.startedAt
+  }
+
+  /** Formats a Date object into a string */
+  formatTime = (timestamp: Date | string, formatName: string): string => {
+    if (typeof timestamp === 'string') timestamp = Date.parse(timestamp)
+    const fmt = 'h:mm a'
+    return format(timestamp, fmt)
+  }
+
+  tick = (): void => {
     this.flush()
     this.setState({ now: new Date() })
     this.timer = setTimeout(this.tick, this.getTimerInterval())
@@ -85,7 +100,7 @@ class App extends Component {
 
     // And push it there
     this.setState({
-      cycles: [...this.state.cycles, extraCycles],
+      cycles: [...this.state.cycles, ...extraCycles],
       cycle: {
         startedAt: this.state.now
       }
