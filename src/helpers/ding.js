@@ -1,8 +1,15 @@
+// @flow
+
 import Notifier from 'node-notifier'
 import Play from 'play-sound'
 
 const Player = Play({})
 
+export type Props = {
+  count: number
+}
+
+/** Path to the sound file to be played */
 export const SOUND_FILE = require('path').resolve(
   __dirname,
   '..',
@@ -11,9 +18,17 @@ export const SOUND_FILE = require('path').resolve(
   'oringz-w447.ogg'
 )
 
-export const ding = () => {
+/**
+ * Sends notifications
+ *
+ *     ding({ count: 2 })
+ */
+
+export const ding = (opts: Props) => {
+  const { count } = opts
+
   Notifier.notify({
-    title: 'Passtime',
+    title: `Passtime (x${count})`,
     message: 'Ding!'
   })
 

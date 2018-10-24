@@ -97,7 +97,9 @@ class App extends Component {
 
   /** Sends a notification */
   sendNotification = () => {
-    ding()
+    const { cycles } = this.state
+    const count = cycles.length + 1
+    ding({ count })
   }
 
   /* Gets elapsed time in the current cycle in milliseconds */
