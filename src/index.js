@@ -27,6 +27,8 @@ function cli() {
 function run() {
   const { flags, input } = cli()
   const message = input.slice(1).join(' ')
+  // Force 256 color
+  // require('chalk').level = 2
   render(<App cycleLength={input[0]} message={cap(flags.message || message)} />)
 }
 

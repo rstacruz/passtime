@@ -47,7 +47,11 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const finishedCyclesLabel = cycles.length ? (
     <span>
       {cycles.map((cycle: Cycle, idx: number) => {
-        return <Color key={idx} {...accent}>{'✓ '}</Color>
+        return (
+          <Color key={idx} {...accent}>
+            {'✓ '}
+          </Color>
+        )
       })}
     </span>
   ) : (
@@ -103,7 +107,11 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
             </Color>
           </span>
         }
-        right={<span>{nowLabel}</span>}
+        right={
+          <Color {...theme.time}>
+            {nowLabel.replace(':', Math.round(+now / 1000) % 2 ? ':' : ' ')}
+          </Color>
+        }
       />
     </MiddleAlign>
   )

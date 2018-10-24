@@ -22,7 +22,8 @@ export type ThemeData = {}
 
 export type Theme = {
   accent: ThemeData,
-  mute: ThemeData
+  mute: ThemeData,
+  time: ThemeData
 }
 
 export type State = {
@@ -57,6 +58,7 @@ class App extends Component {
     this.state = {
       theme: {
         accent: { green: true },
+        time: { bold: true },
         mute: { gray: true }
       },
       settings: {
@@ -88,7 +90,8 @@ class App extends Component {
 
   /** Formats a Date object into a string */
   formatTime = (timestamp: Date | string): string => {
-    if (typeof timestamp === 'string') timestamp = new Date(Date.parse(timestamp))
+    if (typeof timestamp === 'string')
+      timestamp = new Date(Date.parse(timestamp))
     const fmt = 'h:mm a'
     return format(timestamp, fmt)
   }
