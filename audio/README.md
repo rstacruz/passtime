@@ -1,0 +1,2 @@
+- https://notificationsounds.com/standard-ringtones/glitchy-tone-97
+  - https://notificationsounds.com/message-tones/small-tip-175
