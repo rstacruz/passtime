@@ -11,8 +11,19 @@ export type TimerViewProps = {
 }
 
 /** Converts to string */
-const toMs = (elapsed: number): string =>
-  prettyMs(elapsed, { secDecimalDigits: 0 })
+const toMs = (elapsed: number): string => {
+  if (elapsed < 1000) return
+  return prettyMs(elapsed, { secDecimalDigits: 0 })
+}
+
+const toMins = (elapsed: number): string => {
+  if (elapsed >= 60000) {
+    return prettyMs(elapsed, { secDecimalDigits: 0, compact: true }).replace(
+      '~',
+      ''
+    )
+  }
+}
 
 /**
  * Timer
@@ -29,20 +40,45 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const startTime = root.getStartTime()
   const startTimeLabel = root.formatTime(root.getStartTime())
   const nowLabel = root.formatTime(now)
-  const elapsedLabel = toMs(elapsed)
+  const elapsedLabel = toMs(elapsed) || "Let's go!"
+  const { message } = settings
 
   const finishedCyclesLabel = cycles.length ? (
     <span>
       {cycles.map((cycle: Cycle, idx: number) => {
-        return <Color green>{' x'}</Color>
+        return <Color green>{'✓ '}</Color>
       })}
     </span>
   ) : (
     ''
   )
 
+  const lengthLabel = toMins(root.getFullLength())
+
   return (
     <MiddleAlign>
+      <br />
+
+      {indent}
+      <SideAlign
+        width={len}
+        left={
+          message && message.length ? (
+            <>
+              <Color green>{settings.message} </Color>
+              <Color gray>in {cycleLength} intervals</Color>
+            </>
+          ) : (
+            <>{cycleLength} intervals</>
+          )
+        }
+        right={
+          <>
+            <Color green>{elapsedLabel}</Color>
+          </>
+        }
+      />
+
       <br />
 
       {indent}
@@ -53,25 +89,20 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
       <SideAlign
         width={len}
         left={
-          <span>
-            <Color green>{elapsedLabel}</Color>
-            <Color gray>
-              {' / '}
-              {cycleLength}
-            </Color>
-          </span>
-        }
-        right={
-          <span>
+          <>
             {finishedCyclesLabel}
-            {'  '}
             <Color gray>
-              {startTimeLabel}
-              {' ─ '}
+              {lengthLabel ? (
+                <>
+                  {lengthLabel} since {startTimeLabel}
+                </>
+              ) : (
+                <>Since {startTimeLabel}</>
+              )}
             </Color>
-            {nowLabel}
-          </span>
+          </>
         }
+        right={<span>{nowLabel}</span>}
       />
     </MiddleAlign>
   )

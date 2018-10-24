@@ -8,17 +8,17 @@ function cli() {
   return Meow(
     `
     Usage: 
-      $ ${process.argv[1]} [options...] [<cycle length>]
+      $ ${process.argv[1]} [options...] [<cycle length>] [<message>]
 
-    Options:
-      -h, --help        show usage information
-      -v, --version     print version info and exit
+    Other options:
+      -h, --help           show usage information
+      -v, --version        print version info and exit
   `,
     {
       flags: {
         help: { type: 'boolean', alias: 'h' },
         version: { type: 'boolean', alias: 'v' },
-        force: { type: 'boolean', alias: 'f' }
+        message: { type: 'string', alias: 'm' }
       }
     }
   )
@@ -26,8 +26,12 @@ function cli() {
 
 function run() {
   const { flags, input } = cli()
-  render(<App cycleLength={input[0]} />)
+  const message = input.slice(1).join(' ')
+  render(<App cycleLength={input[0]} message={cap(flags.message || message)} />)
 }
 
-// module.exports = run()
+function cap(str) {
+  return '' + str.substr(0, 1).toUpperCase() + str.substr(1)
+}
+
 run()

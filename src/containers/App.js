@@ -8,7 +8,8 @@ import format from 'date-fns/format'
 
 export type Settings = {
   cycleLength: number,
-  fps: number
+  fps: number,
+  message: ?string
 }
 
 export type Cycle = {
@@ -29,7 +30,8 @@ export type State = {
 }
 
 export type Props = {
-  cycleLength?: string
+  cycleLength?: string,
+  message?: string
 }
 
 /**
@@ -37,7 +39,7 @@ export type Props = {
  */
 
 class App extends Component {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
 
     const cycleLength = stringToMs(props.cycleLength || '20m')
@@ -45,7 +47,8 @@ class App extends Component {
     this.state = {
       settings: {
         cycleLength: cycleLength,
-        fps: cycleLength < 40000 ? 3 : 1
+        fps: cycleLength < 10000 ? 8 : cycleLength < 40000 ? 3 : 1,
+        message: props.message
       },
       cycle: {
         startedAt: new Date()
@@ -60,6 +63,13 @@ class App extends Component {
     const { cycles } = this.state
     const cycle = cycles[0] || this.state.cycle
     return cycle.startedAt
+  }
+
+  /** The full length since the beginning */
+  getFullLength = (): number => {
+    const start = this.getStartTime()
+    const now = this.state.now
+    return +now - +start
   }
 
   /** Formats a Date object into a string */
