@@ -99,7 +99,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
           left={
             <span>
               {finishedCyclesLabel}
-              <Spinner {...accent} type="bounce" />
+              <Spinner {...mute} type="flip" />
               {'  '}
               <Color {...mute}>
                 {lengthLabel ? (
