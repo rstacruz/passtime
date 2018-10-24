@@ -1,7 +1,7 @@
 // @flow
 /* @jsx h */
 
-import { h, render, Component } from 'ink'
+import { h, Component } from 'ink'
 import { TimerView } from '../components/TimerView'
 import { ding } from '../helpers/ding'
 import stringToMs from 'ms'

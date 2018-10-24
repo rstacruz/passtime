@@ -1,9 +1,9 @@
 // @flow
 /* @jsx h */
 
-import { h, render, Component, Color } from 'ink'
-import type { App, Cycle } from '../containers/App'
-import { SideAlign, RightAlign, MiddleAlign } from './Align'
+import { h, Color } from 'ink'
+import type { App, Cycle, ThemeData } from '../containers/App'
+import { SideAlign, MiddleAlign } from './Align'
 import prettyMs from 'pretty-ms'
 
 export type TimerViewProps = {
@@ -40,7 +40,6 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const percent = root.getCyclePercent()
   const indent = Array(indentLength + 1).join(' ')
   const cycleLength = toMs(settings.cycleLength)
-  const startTime = root.getStartTime()
   const startTimeLabel = root.formatTime(root.getStartTime())
   const nowLabel = root.formatTime(now)
   const elapsedLabel = toMs(elapsed) || "Let's go!"
@@ -48,7 +47,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const finishedCyclesLabel = cycles.length ? (
     <span>
       {cycles.map((cycle: Cycle, idx: number) => {
-        return <Color {...accent}>{'✓ '}</Color>
+        return <Color key={idx} {...accent}>{'✓ '}</Color>
       })}
     </span>
   ) : (
@@ -84,7 +83,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
       <br />
 
       {indent}
-      <Progress value={percent} isNow length={len} theme={theme} />
+      <Progress value={percent} length={len} theme={theme} />
 
       <br />
       {indent}
@@ -110,13 +109,19 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   )
 }
 
+export type ProgressProps = {
+  value: number,
+  isDone?: boolean,
+  length: number,
+  theme: { accent: ThemeData, mute: ThemeData }
+}
+
 const Progress = ({
   value,
   isDone,
-  isNow,
   length = 40,
   theme: { accent, mute }
-}) => {
+}: ProgressProps) => {
   // Cap value to 0..1
   value = Math.max(Math.min(value, 1), 0)
 

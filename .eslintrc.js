@@ -4,10 +4,12 @@ module.exports = {
     node: true
   },
   extends: [
-    'eslint:recommended'
+    'eslint:recommended',
+    'plugin:react/recommended'
   ],
   settings: {
     react: {
+      version: '16.4.0',
       pragma: 'h'
     }
   },
@@ -20,5 +22,8 @@ module.exports = {
   },
   plugins: ['react'],
   parser: 'babel-eslint',
-  rules: {}
+  rules: {
+    'react/prop-types': 0,
+    'react/react-in-jsx-scope': 0
+  }
 }

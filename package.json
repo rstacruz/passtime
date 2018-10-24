@@ -15,7 +15,8 @@
     "dev": "babel-node src/index.js",
     "build": "babel src -d lib",
     "watch": "babel src -d lib --watch --verbose",
-    "flow": "flow"
+    "flow": "flow",
+    "lint": "eslint 'src/**/*.js'"
   },
   "bin": {
     "passtime": "bin/passtime"

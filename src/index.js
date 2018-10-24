@@ -1,8 +1,8 @@
 #!/usr/bin/env node
+/* @jsx h */
 import { App } from './containers/App'
 import { h, render } from 'ink'
 import Meow from 'meow'
-import Ansi from 'ansi-escapes'
 
 function cli() {
   return Meow(
