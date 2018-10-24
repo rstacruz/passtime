@@ -45,7 +45,7 @@ class App extends Component {
     this.state = {
       settings: {
         cycleLength: cycleLength,
-        fps: 3
+        fps: cycleLength < 40000 ? 3 : 1
       },
       cycle: {
         startedAt: new Date()
