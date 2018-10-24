@@ -2,7 +2,7 @@
 
 import { h, render, Component, Color } from 'ink'
 import type { App } from '../containers/App'
-import { SideAlign, RightAlign } from './Align'
+import { SideAlign, RightAlign, MiddleAlign } from './Align'
 import prettyMs from 'pretty-ms'
 
 export type TimerViewProps = {
@@ -42,7 +42,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   )
 
   return (
-    <>
+    <MiddleAlign>
       <br />
 
       {indent}
@@ -73,7 +73,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
           </span>
         }
       />
-    </>
+    </MiddleAlign>
   )
 }
 

@@ -26,7 +26,6 @@ function cli() {
 
 function run() {
   const { flags, input } = cli()
-  process.stdout.write(Ansi.clearScreen)
   render(<App cycleLength={input[0]} />)
 }
 
