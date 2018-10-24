@@ -30,7 +30,9 @@ const toMins = (elapsed: number): string => {
  */
 
 const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
-  const { cycles, settings, now } = root.state
+  const { cycles, settings, now, theme } = root.state
+  const { message } = settings
+  const { accent, mute } = theme
 
   const len = Math.max(process.stdout.columns - 2 - indentLength * 2, 8)
   const elapsed = root.getCycleElapsed()
@@ -41,12 +43,11 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const startTimeLabel = root.formatTime(root.getStartTime())
   const nowLabel = root.formatTime(now)
   const elapsedLabel = toMs(elapsed) || "Let's go!"
-  const { message } = settings
 
   const finishedCyclesLabel = cycles.length ? (
     <span>
       {cycles.map((cycle: Cycle, idx: number) => {
-        return <Color green>{'✓ '}</Color>
+        return <Color {...accent}>{'✓ '}</Color>
       })}
     </span>
   ) : (
@@ -65,16 +66,16 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
         left={
           message && message.length ? (
             <>
-              <Color green>{settings.message} </Color>
-              <Color gray>in {cycleLength} intervals</Color>
+              <Color {...accent}>{settings.message} </Color>
+              <Color {...mute}>in {cycleLength} intervals</Color>
             </>
           ) : (
-            <>{cycleLength} intervals</>
+            <Color {...accent}>{cycleLength} intervals</Color>
           )
         }
         right={
           <>
-            <Color green>{elapsedLabel}</Color>
+            <Color {...accent}>{elapsedLabel}</Color>
           </>
         }
       />
@@ -82,7 +83,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
       <br />
 
       {indent}
-      <Progress value={percent} isNow length={len} />
+      <Progress value={percent} isNow length={len} theme={theme} />
 
       <br />
       {indent}
@@ -91,7 +92,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
         left={
           <>
             {finishedCyclesLabel}
-            <Color gray>
+            <Color {...mute}>
               {lengthLabel ? (
                 <>
                   {lengthLabel} since {startTimeLabel}
@@ -108,14 +109,20 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   )
 }
 
-const Progress = ({ value, isDone, isNow, length = 40 }) => {
+const Progress = ({
+  value,
+  isDone,
+  isNow,
+  length = 40,
+  theme: { accent, mute }
+}) => {
   // Cap value to 0..1
   value = Math.max(Math.min(value, 1), 0)
 
   if (isDone) {
     return (
       <span>
-        <Color gray>{Array(length + 1).join('─')}</Color>
+        <Color {...mute}>{Array(length + 1).join('─')}</Color>
       </span>
     )
   }
@@ -123,12 +130,11 @@ const Progress = ({ value, isDone, isNow, length = 40 }) => {
   // Length must be at least 1
   const leftLength = Math.max(Math.round(value * length), 1)
   const rightLength = length - leftLength
-  const color = isNow ? { green: true } : { gray: true }
 
   return (
     <span>
-      <Color {...color}>{Array(leftLength + 1).join('━')}</Color>
-      <Color gray>{Array(rightLength + 1).join('─')}</Color>
+      <Color {...accent}>{Array(leftLength + 1).join('━')}</Color>
+      <Color {...mute}>{Array(rightLength + 1).join('─')}</Color>
     </span>
   )
 }

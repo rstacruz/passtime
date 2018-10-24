@@ -17,8 +17,17 @@ export type Cycle = {
   endedAt?: Date
 }
 
+export type ThemeData = {}
+
+export type Theme = {
+  accent: ThemeData,
+  mute: ThemeData
+}
+
 export type State = {
   settings: Settings,
+
+  theme: Theme,
 
   // Current cycle
   cycle: Cycle,
@@ -45,6 +54,10 @@ class App extends Component {
     const cycleLength = stringToMs(props.cycleLength || '20m')
 
     this.state = {
+      theme: {
+        accent: { green: true },
+        mute: { gray: true }
+      },
       settings: {
         cycleLength: cycleLength,
         fps: cycleLength < 10000 ? 8 : cycleLength < 40000 ? 3 : 1,
