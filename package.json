@@ -14,7 +14,8 @@
   "scripts": {
     "dev": "babel-node src/index.js",
     "build": "babel src -d lib",
-    "watch": "babel src -d lib --watch --verbose"
+    "watch": "babel src -d lib --watch --verbose",
+    "flow": "flow"
   },
   "bin": {
     "passtime": "bin/passtime"
@@ -27,7 +28,10 @@
     "@babel/plugin-transform-react-jsx": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-flow": "^7.0.0",
+    "babel-eslint": "^10.0.1",
     "eslint": "^5.7.0",
+    "eslint-plugin-react": "^7.11.1",
+    "flow-bin": "^0.83.0",
     "prettier": "^1.14.3"
   }
 }

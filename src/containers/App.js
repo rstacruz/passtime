@@ -1,6 +1,7 @@
 // @flow
+/* @jsx h */
 
-import { h, render, Component, Color } from 'ink'
+import { h, render, Component } from 'ink'
 import { TimerView } from '../components/TimerView'
 import { ding } from '../helpers/ding'
 import stringToMs from 'ms'
@@ -86,7 +87,7 @@ class App extends Component {
   }
 
   /** Formats a Date object into a string */
-  formatTime = (timestamp: Date | string, formatName: string): string => {
+  formatTime = (timestamp: Date | string): string => {
     if (typeof timestamp === 'string') timestamp = Date.parse(timestamp)
     const fmt = 'h:mm a'
     return format(timestamp, fmt)
