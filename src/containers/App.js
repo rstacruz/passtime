@@ -88,7 +88,7 @@ class App extends Component {
 
   /** Formats a Date object into a string */
   formatTime = (timestamp: Date | string): string => {
-    if (typeof timestamp === 'string') timestamp = Date.parse(timestamp)
+    if (typeof timestamp === 'string') timestamp = new Date(Date.parse(timestamp))
     const fmt = 'h:mm a'
     return format(timestamp, fmt)
   }

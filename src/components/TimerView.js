@@ -1,7 +1,8 @@
 // @flow
+/* @jsx h */
 
 import { h, render, Component, Color } from 'ink'
-import type { App } from '../containers/App'
+import type { App, Cycle } from '../containers/App'
 import { SideAlign, RightAlign, MiddleAlign } from './Align'
 import prettyMs from 'pretty-ms'
 
@@ -11,12 +12,12 @@ export type TimerViewProps = {
 }
 
 /** Converts to string */
-const toMs = (elapsed: number): string => {
+const toMs = (elapsed: number): ?string => {
   if (elapsed < 1000) return
   return prettyMs(elapsed, { secDecimalDigits: 0 })
 }
 
-const toMins = (elapsed: number): string => {
+const toMins = (elapsed: number): ?string => {
   if (elapsed >= 60000) {
     return prettyMs(elapsed, { secDecimalDigits: 0, compact: true }).replace(
       '~',
@@ -34,7 +35,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const { message } = settings
   const { accent, mute } = theme
 
-  const len = Math.max(process.stdout.columns - 2 - indentLength * 2, 8)
+  const len = Math.max(getColumns() - 2 - indentLength * 2, 8)
   const elapsed = root.getCycleElapsed()
   const percent = root.getCyclePercent()
   const indent = Array(indentLength + 1).join(' ')
@@ -65,18 +66,18 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
         width={len}
         left={
           message && message.length ? (
-            <>
+            <span>
               <Color {...accent}>{settings.message} </Color>
               <Color {...mute}>in {cycleLength} intervals</Color>
-            </>
+            </span>
           ) : (
             <Color {...accent}>{cycleLength} intervals</Color>
           )
         }
         right={
-          <>
+          <span>
             <Color {...accent}>{elapsedLabel}</Color>
-          </>
+          </span>
         }
       />
 
@@ -90,18 +91,18 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
       <SideAlign
         width={len}
         left={
-          <>
+          <span>
             {finishedCyclesLabel}
             <Color {...mute}>
               {lengthLabel ? (
-                <>
+                <span>
                   {lengthLabel} since {startTimeLabel}
-                </>
+                </span>
               ) : (
-                <>Since {startTimeLabel}</>
+                <span>Since {startTimeLabel}</span>
               )}
             </Color>
-          </>
+          </span>
         }
         right={<span>{nowLabel}</span>}
       />
@@ -137,6 +138,11 @@ const Progress = ({
       <Color {...mute}>{Array(rightLength + 1).join('─')}</Color>
     </span>
   )
+}
+
+const getColumns = (): number => {
+  // $FlowFixMe$
+  return process.stdout.columns
 }
 
 module.exports = { TimerView }
