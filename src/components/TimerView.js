@@ -21,7 +21,7 @@ const toMs = (elapsed: number): string =>
 const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const { cycles, settings, now } = root.state
 
-  const len = 40
+  const len = Math.max(process.stdout.columns - 8, 8)
   const elapsed = root.getCycleElapsed()
   const percent = root.getCyclePercent()
   const indent = Array(indentLength + 1).join(' ')
@@ -31,10 +31,9 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const nowLabel = root.formatTime(now)
   const elapsedLabel = toMs(elapsed)
 
-  const prelabel = cycles.length ? (
+  const finishedCyclesLabel = cycles.length ? (
     <span>
       {cycles.map((cycle: Cycle, idx: number) => {
-        const label = root.formatTime(cycle.startedAt)
         return <Color green>{' ·'}</Color>
       })}
     </span>
@@ -48,26 +47,13 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
 
       <div>
         {indent}
-        <SideAlign
-          width={40}
-          left={
-            <span>
-              <Color gray>{startTimeLabel}</Color> {prelabel}
-            </span>
-          }
-          right={nowLabel}
-        />
-      </div>
-
-      <div>
-        {indent}
         <Progress value={percent} isNow length={len} />
       </div>
 
       <div>
         {indent}
         <SideAlign
-          width={40}
+          width={len}
           left={
             <span>
               <Color green>{elapsedLabel}</Color>
@@ -75,6 +61,17 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
                 {' / '}
                 {cycleLength}
               </Color>
+            </span>
+          }
+          right={
+            <span>
+              {finishedCyclesLabel}
+              {'  '}
+              <Color gray>
+                {startTimeLabel}
+                {' ─ '}
+              </Color>
+              {nowLabel}
             </span>
           }
         />
