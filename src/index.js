@@ -2,6 +2,7 @@
 import { App } from './containers/App'
 import { h, render } from 'ink'
 import Meow from 'meow'
+import Ansi from 'ansi-escapes'
 
 function cli() {
   return Meow(
@@ -25,6 +26,7 @@ function cli() {
 
 function run() {
   const { flags, input } = cli()
+  process.stdout.write(Ansi.clearScreen)
   render(<App cycleLength={input[0]} />)
 }
 
