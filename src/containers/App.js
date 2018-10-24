@@ -63,11 +63,11 @@ class App extends Component {
         time: { bold: true },
         mute: { gray: true },
         finishedCycle: '▪',
-        currentCycle: '·'
+        spinner: require('cli-spinners').dots5.frames
       },
       settings: {
         cycleLength: cycleLength,
-        fps: cycleLength < 10000 ? 8 : cycleLength < 40000 ? 4 : 2,
+        fps: cycleLength < 10000 ? 4 : cycleLength < 40000 ? 4 : 2,
         message: props.message
       },
       cycle: {

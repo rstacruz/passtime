@@ -1,54 +1,27 @@
 // @flow
 /* @jsx h */
 
-import { h, Component, renderToString } from 'ink'
-import strip from 'strip-ansi'
+import { h, Component } from 'ink'
 
 export type Props = {
-  children: any
+  frames: string[]
 }
+
+/**
+ * Hacky implementation of Blink that's made to be more CPU-friendly.
+ * Yes, this violates React best practices, don't copy this!
+ */
 
 export class Blink extends Component {
   constructor(props: Props) {
     super(props)
-    this.state = { isVisible: true }
-  }
-
-  tick = (): void => {
-    this.setState({ isVisible: !this.state.isVisible })
-    this.timer = setTimeout(this.tick, this.props.interval)
-  }
-
-  componentDidMount() {
-    this.tick()
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer)
+    this.frame = 0
+    this.framesLength = props.frames.length
   }
 
   render() {
-    const { children, alt } = this.props
-    const { isVisible } = this.state
-
-    if (isVisible) {
-      return (
-        <span>
-          {children}
-          {this.state.now}
-        </span>
-      )
-    } else {
-      if (typeof alt !== 'undefined') {
-        return alt
-      } else {
-        const len = strip(renderToString(<span>{children}</span>)).length
-        return Array(len + 1).join(' ')
-      }
-    }
+    const { frames } = this.props
+    this.frame = (this.frame + 1) % this.framesLength
+    return <span>{frames[this.frame]}</span>
   }
-}
-
-Blink.defaultProps = {
-  interval: 250
 }

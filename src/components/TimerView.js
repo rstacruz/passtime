@@ -1,8 +1,7 @@
 // @flow
 /* @jsx h */
 
-import { h, Component, Color, renderToString } from 'ink'
-import Spinner from 'ink-spinner'
+import { h, Color } from 'ink'
 import type { App, Cycle, ThemeData } from '../containers/App'
 import { SideAlign, MiddleAlign } from './Align'
 import { Blink } from './Blink'
@@ -63,65 +62,62 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const lengthLabel = toMins(root.getFullLength())
 
   return (
-    <>
-      <MiddleAlign>
-        <br />
+    <MiddleAlign>
+      <br />
 
-        {indent}
-        <SideAlign
-          width={len}
-          left={
-            message && message.length ? (
-              <span>
-                <Color {...accent}>{settings.message} </Color>
-                <Color {...mute}>in {cycleLength} intervals</Color>
-              </span>
-            ) : (
-              <Color {...accent}>{cycleLength} intervals</Color>
-            )
-          }
-          right={
+      {indent}
+      <SideAlign
+        width={len}
+        left={
+          message && message.length ? (
             <span>
-              <Color {...accent}>{elapsedLabel}</Color>
+              <Color {...accent}>{settings.message} </Color>
+              <Color {...mute}>in {cycleLength} intervals</Color>
             </span>
-          }
-        />
+          ) : (
+            <Color {...accent}>{cycleLength} intervals</Color>
+          )
+        }
+        right={
+          <span>
+            <Color {...accent}>{elapsedLabel}</Color>
+          </span>
+        }
+      />
 
-        <br />
+      <br />
 
-        {indent}
-        <Progress value={percent} length={len} theme={theme} />
+      {indent}
+      <Progress value={percent} length={len} theme={theme} />
 
-        <br />
-        {indent}
-        <SideAlign
-          width={len}
-          left={
-            <span>
-              {finishedCyclesLabel}
-              <Spinner {...mute} type="flip" />
-              {'  '}
-              <Color {...mute}>
-                {lengthLabel ? (
-                  <span>
-                    {lengthLabel} since {startTimeLabel}
-                  </span>
-                ) : (
-                  <span>since {startTimeLabel}</span>
-                )}
-              </Color>
-            </span>
-          }
-          right={
-            <Color {...theme.time}>
-              <Blink alt={nowLabel.replace(':', ' ')} interval={500}>
-                {nowLabel}
-              </Blink>
+      <br />
+      {indent}
+      <SideAlign
+        width={len}
+        left={
+          <span>
+            {finishedCyclesLabel}
+            {/*<Spinner {...accent} type="flip" />*/}
+            <Blink frames={theme.spinner} />
+            {'  '}
+            <Color {...mute}>
+              {lengthLabel ? (
+                <span>
+                  {lengthLabel} since {startTimeLabel}
+                </span>
+              ) : (
+                <span>since {startTimeLabel}</span>
+              )}
             </Color>
-          }
-        />
-      </MiddleAlign>
-    </>
+          </span>
+        }
+        right={
+          <Color {...theme.time}>
+            <Blink frames={[nowLabel, nowLabel.replace(':', ' ')]} />
+          </Color>
+        }
+      />
+    </MiddleAlign>
   )
 }
 
