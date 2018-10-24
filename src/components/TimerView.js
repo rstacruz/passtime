@@ -21,7 +21,7 @@ const toMs = (elapsed: number): string =>
 const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const { cycles, settings, now } = root.state
 
-  const len = Math.max(process.stdout.columns - 8, 8)
+  const len = Math.max(process.stdout.columns - 2 - indentLength * 2, 8)
   const elapsed = root.getCycleElapsed()
   const percent = root.getCyclePercent()
   const indent = Array(indentLength + 1).join(' ')
@@ -34,7 +34,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const finishedCyclesLabel = cycles.length ? (
     <span>
       {cycles.map((cycle: Cycle, idx: number) => {
-        return <Color green>{' ·'}</Color>
+        return <Color green>{' x'}</Color>
       })}
     </span>
   ) : (
@@ -42,41 +42,38 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   )
 
   return (
-    <div>
-      <div />
+    <>
+      <br />
 
-      <div>
-        {indent}
-        <Progress value={percent} isNow length={len} />
-      </div>
+      {indent}
+      <Progress value={percent} isNow length={len} />
 
-      <div>
-        {indent}
-        <SideAlign
-          width={len}
-          left={
-            <span>
-              <Color green>{elapsedLabel}</Color>
-              <Color gray>
-                {' / '}
-                {cycleLength}
-              </Color>
-            </span>
-          }
-          right={
-            <span>
-              {finishedCyclesLabel}
-              {'  '}
-              <Color gray>
-                {startTimeLabel}
-                {' ─ '}
-              </Color>
-              {nowLabel}
-            </span>
-          }
-        />
-      </div>
-    </div>
+      <br />
+      {indent}
+      <SideAlign
+        width={len}
+        left={
+          <span>
+            <Color green>{elapsedLabel}</Color>
+            <Color gray>
+              {' / '}
+              {cycleLength}
+            </Color>
+          </span>
+        }
+        right={
+          <span>
+            {finishedCyclesLabel}
+            {'  '}
+            <Color gray>
+              {startTimeLabel}
+              {' ─ '}
+            </Color>
+            {nowLabel}
+          </span>
+        }
+      />
+    </>
   )
 }
 
