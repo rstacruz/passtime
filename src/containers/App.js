@@ -204,7 +204,7 @@ class App extends Component {
             cycleLength
           },
           cycles: [],
-          timer: {
+          cycle: {
             startedAt: now
           },
           now
