@@ -4,6 +4,7 @@
 import { h, Component } from 'ink'
 import { TimerView } from '../components/TimerView'
 import { ding } from '../helpers/ding'
+import Select from 'ink-select-input'
 import stringToMs from 'ms'
 import format from 'date-fns/format'
 
@@ -161,8 +162,11 @@ class App extends Component {
     return elapsed / cycleLength
   }
 
+  setCycleLength = ({ value }) => {}
+
   render() {
-    return <TimerView root={this} />
+    // return <TimerView root={this} />
+    return <TimerForm root={this} />
   }
 
   componentDidMount() {
@@ -173,6 +177,20 @@ class App extends Component {
     clearInterval(this.timer)
   }
 }
+
+const TimerForm = ({ root }) => {
+  const labels = ['5m', '15m', '30m', '45m']
+  const items = labels.map((label: string) => ({ label, value: label }))
+
+  return (
+    <div>
+      Choose a cycle length:
+      <br />
+      <Select items={items} onSelect={root.setCycleLength} />
+    </div>
+  )
+}
+
 /*
  * Export
  */
