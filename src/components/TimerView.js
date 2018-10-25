@@ -113,7 +113,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
         }
         right={
           <Color {...theme.time}>
-            <Blink frames={[nowLabel, nowLabel.replace(':', ' ')]} />
+            {nowLabel}
           </Color>
         }
       />
