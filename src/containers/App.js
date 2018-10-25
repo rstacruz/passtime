@@ -9,7 +9,7 @@ import stringToMs from 'ms'
 import format from 'date-fns/format'
 
 export type Settings = {
-  cycleLength?: number,
+  cycleLength?: ?number,
   fps: number,
   message: ?string
 }
@@ -52,13 +52,23 @@ export type Props = {
  * App
  */
 
+function getFpsFromCycleLength(cycleLength: ?number): number {
+  return !cycleLength
+    ? 2
+    : cycleLength < 10000
+      ? 4
+      : cycleLength < 40000
+        ? 4
+        : 2
+}
+
 class App extends Component {
   state: State
 
   constructor(props: Props) {
     super(props)
 
-    const cycleLength = stringToMs(props.cycleLength || '20m')
+    const cycleLength = props.cycleLength ? stringToMs(props.cycleLength) : null
 
     this.state = {
       theme: {
@@ -70,7 +80,7 @@ class App extends Component {
       },
       settings: {
         cycleLength: cycleLength,
-        fps: cycleLength < 10000 ? 4 : cycleLength < 40000 ? 4 : 2,
+        fps: getFpsFromCycleLength(cycleLength),
         message: props.message
       },
       cycle: {
@@ -184,23 +194,33 @@ class App extends Component {
     const cycleLength = stringToMs(len)
     const now = new Date()
 
-    this.setState(({ settings }) => {
-      return {
-        settings: {
-          ...settings,
-          cycleLength
-        },
-        timer: {
-          startedAt: now
-        },
-        now
+    this.setState(
+      (state: State): State => {
+        const { settings } = state
+        return {
+          ...state,
+          settings: {
+            ...settings,
+            cycleLength
+          },
+          cycles: [],
+          timer: {
+            startedAt: now
+          },
+          now
+        }
       }
-    })
+    )
   }
 
   render() {
-    // return <TimerView root={this} />
-    return <TimerForm root={this} />
+    const { settings } = this.state
+
+    if (settings.cycleLength == null) {
+      return <TimerForm root={this} />
+    } else {
+      return <TimerView root={this} />
+    }
   }
 
   componentDidMount() {
