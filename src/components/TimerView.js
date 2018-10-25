@@ -36,11 +36,15 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
   const { message } = settings
   const { accent, mute } = theme
 
+  if (settings.cycleLength == null) {
+    return <span>(Timer not started.)</span>
+  }
+
   const len = Math.max(getColumns() - 2 - indentLength * 2, 8)
   const elapsed = root.getCycleElapsed()
   const percent = root.getCyclePercent()
   const indent = Array(indentLength + 1).join(' ')
-  const cycleLength = toMs(settings.cycleLength)
+  const cycleLength = toMs(settings.cycleLength || 0)
   const startTimeLabel = root.formatTime(root.getStartTime())
   const nowLabel = root.formatTime(now).toUpperCase()
   const elapsedLabel = toMs(elapsed) || "Let's go!"
@@ -111,11 +115,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
             </Color>
           </span>
         }
-        right={
-          <Color {...theme.time}>
-            {nowLabel}
-          </Color>
-        }
+        right={<Color {...theme.time}>{nowLabel}</Color>}
       />
     </MiddleAlign>
   )

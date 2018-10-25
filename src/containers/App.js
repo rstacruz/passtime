@@ -9,7 +9,7 @@ import stringToMs from 'ms'
 import format from 'date-fns/format'
 
 export type Settings = {
-  cycleLength: number,
+  cycleLength?: number,
   fps: number,
   message: ?string
 }
@@ -26,7 +26,7 @@ export type Theme = {
   mute: ThemeData,
   time: ThemeData,
   finishedCycle: string,
-  currentCycle: string
+  spinner: string[]
 }
 
 export type State = {
@@ -53,6 +53,8 @@ export type Props = {
  */
 
 class App extends Component {
+  state: State
+
   constructor(props: Props) {
     super(props)
 
@@ -115,8 +117,12 @@ class App extends Component {
   }
 
   flush = () => {
+    // Nothing to do if we haven't strated yet
+    const percent = this.getCyclePercent()
+    if (percent == null) return
+
     // See if we have 1 or more passed cycles
-    const passedCycles = Math.floor(this.getCyclePercent())
+    const passedCycles = Math.floor(percent)
     if (passedCycles === 0) return
 
     // Construct the extra cycles
@@ -156,13 +162,41 @@ class App extends Component {
   }
 
   /** Gets the percentage (0...1) */
-  getCyclePercent = (): number => {
+  getCyclePercent = (): ?number => {
     const elapsed = this.getCycleElapsed()
+    if (elapsed == null) return
+
+    // Don't return anything if there's no cycle length
     const { cycleLength } = this.state.settings
+    if (cycleLength == null) return
+
     return elapsed / cycleLength
   }
 
-  setCycleLength = ({ value }) => {}
+  /**
+   * Updates cycle length.
+   *
+   * @example
+   *     root.setCycleLength('15m')
+   */
+
+  setCycleLength = (len: string): void => {
+    const cycleLength = stringToMs(len)
+    const now = new Date()
+
+    this.setState(({ settings }) => {
+      return {
+        settings: {
+          ...settings,
+          cycleLength
+        },
+        timer: {
+          startedAt: now
+        },
+        now
+      }
+    })
+  }
 
   render() {
     // return <TimerView root={this} />
@@ -186,7 +220,12 @@ const TimerForm = ({ root }) => {
     <div>
       Choose a cycle length:
       <br />
-      <Select items={items} onSelect={root.setCycleLength} />
+      <Select
+        items={items}
+        onSelect={({ value }) => {
+          root.setCycleLength(value)
+        }}
+      />
     </div>
   )
 }
