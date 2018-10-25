@@ -74,7 +74,7 @@ class App extends Component {
       theme: {
         accent: { green: true },
         time: { bold: true },
-        mute: { gray: true },
+        mute: { gray: true, dim: true },
         finishedCycle: '▪',
         spinner: require('cli-spinners').dots5.frames
       },
