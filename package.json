@@ -1,7 +1,7 @@
 {
   "name": "@rstacruz/passtime",
   "description": "Keep track of the passing of time in your terminal",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "author": "Rico Sta. Cruz <rstacruz@users.noreply.github.com>",
   "bin": {
     "passtime": "bin/passtime"
@@ -35,6 +35,11 @@
   "directories": {
     "lib": "lib"
   },
+  "files": [
+    "lib",
+    "src",
+    "bin"
+  ],
   "homepage": "https://github.com/rstacruz/passtime",
   "keywords": [],
   "license": "MIT",
