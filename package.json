@@ -1,7 +1,7 @@
 {
   "name": "@rstacruz/passtime",
   "description": "Keep track of the passing of time in your terminal",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Rico Sta. Cruz <rstacruz@users.noreply.github.com>",
   "bin": {
     "passtime": "bin/passtime"

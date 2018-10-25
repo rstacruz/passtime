@@ -18,7 +18,14 @@ Passtime will subtly let you know every 30 minutes that passes (or a custom inte
 
 ## Usage
 
+Passtime is in development, but you can try it out now using `npx @rstacruz/passtime`.
+
 ```sh
+alias passtime="npx @rstacruz/passtime"
+
 # Alert every 15 minutes
 passtime 15m
+
+# Or show usage info
+passtime --help
 ```

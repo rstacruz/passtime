@@ -2,13 +2,14 @@
 /* @jsx h */
 import { App } from './containers/App'
 import { h, render } from 'ink'
+import { basename } from 'path'
 import Meow from 'meow'
 
 function cli() {
   return Meow(
     `
     Usage: 
-      $ ${process.argv[1]} [options...] [<cycle length>] [<message>]
+      $ ${basename(process.argv[1])} [options...] [<cycle length>] [<message>]
 
     Other options:
       -h, --help           show usage information
