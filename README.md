@@ -5,7 +5,7 @@
 <h1 align='center'>passtime</h1>
 
 <p align='center'>
-<em>Keep track of the passing of time</em>
+<em>Keep track of the passing of time in your terminal</em>
 </p>
 
 <br>
