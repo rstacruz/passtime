@@ -1,5 +1,5 @@
 <p align='center'>
-<br><img src='https://user-images.githubusercontent.com/74385/46930533-c84de080-d078-11e8-8b8a-24945201be94.png' width='192'><br>
+<br><img src='https://user-images.githubusercontent.com/74385/47490847-239f8000-d87c-11e8-9eef-1fce67f05bac.png' width='160'><br>
 </p>
 
 <h1 align='center'>passtime</h1>
@@ -29,3 +29,5 @@ passtime 15m
 # Or show usage info
 passtime --help
 ```
+
+Thanks Phonlaphat Thongsriphong for the [icon](https://thenounproject.com/search/?q=time&i=1888254)!
