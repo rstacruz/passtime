@@ -2,65 +2,18 @@
 /* @jsx h */
 
 import { h, Component } from 'ink'
+import Select from 'ink-select-input'
+import format from 'date-fns/format'
+import stringToMs from 'ms'
+
+import type { Cycle, State, Props } from '../types'
+import { TimerForm } from '../components/TimerForm'
 import { TimerView } from '../components/TimerView'
 import { ding } from '../helpers/ding'
-import Select from 'ink-select-input'
-import stringToMs from 'ms'
-import format from 'date-fns/format'
-
-export type Settings = {
-  cycleLength?: ?number,
-  fps: number,
-  message: ?string
-}
-
-export type Cycle = {
-  startedAt: Date,
-  endedAt?: Date
-}
-
-export type ThemeData = {}
-
-export type Theme = {
-  accent: ThemeData,
-  mute: ThemeData,
-  time: ThemeData,
-  finishedCycle: string,
-  spinner: string[]
-}
-
-export type State = {
-  settings: Settings,
-
-  theme: Theme,
-
-  // Current cycle
-  cycle: Cycle,
-
-  // Cycles that were completed
-  cycles: Cycle[],
-
-  now: Date
-}
-
-export type Props = {
-  cycleLength?: string,
-  message?: string
-}
 
 /**
  * App
  */
-
-function getFpsFromCycleLength(cycleLength: ?number): number {
-  return !cycleLength
-    ? 2
-    : cycleLength < 10000
-      ? 4
-      : cycleLength < 40000
-        ? 4
-        : 2
-}
 
 class App extends Component {
   state: State
@@ -232,22 +185,18 @@ class App extends Component {
   }
 }
 
-const TimerForm = ({ root }) => {
-  const labels = ['5m', '15m', '30m', '45m']
-  const items = labels.map((label: string) => ({ label, value: label }))
+/**
+ * Helper: get FPS from cycle
+ */
 
-  return (
-    <div>
-      Choose a cycle length:
-      <br />
-      <Select
-        items={items}
-        onSelect={({ value }) => {
-          root.setCycleLength(value)
-        }}
-      />
-    </div>
-  )
+function getFpsFromCycleLength(cycleLength: ?number): number {
+  return !cycleLength
+    ? 2
+    : cycleLength < 10000
+      ? 4
+      : cycleLength < 40000
+        ? 4
+        : 2
 }
 
 /*
