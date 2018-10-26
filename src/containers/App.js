@@ -190,13 +190,8 @@ class App extends Component {
  */
 
 function getFpsFromCycleLength(cycleLength: ?number): number {
-  return !cycleLength
-    ? 2
-    : cycleLength < 10000
-      ? 4
-      : cycleLength < 40000
-        ? 4
-        : 2
+  if (cycleLength && cycleLength < 10000) return 4
+  return 2
 }
 
 /*
