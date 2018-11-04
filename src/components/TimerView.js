@@ -111,11 +111,7 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
             </Color>
           </span>
         }
-        right={
-          <Color {...theme.time}>
-            {nowLabel}
-          </Color>
-        }
+        right={<Color {...theme.time}>{nowLabel}</Color>}
       />
     </MiddleAlign>
   )
@@ -146,12 +142,13 @@ const Progress = ({
   }
 
   // Length must be at least 1
-  const leftLength = Math.max(Math.round(value * length), 1)
-  const rightLength = length - leftLength
+  const leftLength = Math.round(value * (length - 1))
+  const rightLength = length - 1 - leftLength
 
   return (
     <span>
       <Color {...accent}>{Array(leftLength + 1).join('━')}</Color>
+      <Color {...accent}>×</Color>
       <Color {...mute}>{Array(rightLength + 1).join('─')}</Color>
     </span>
   )

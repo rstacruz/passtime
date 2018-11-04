@@ -59,7 +59,7 @@ class App extends Component {
 
     this.state = {
       theme: {
-        accent: { green: true },
+        accent: { green: true, bold: true },
         time: { bold: true },
         mute: { gray: true },
         finishedCycle: '▪',
