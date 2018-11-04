@@ -2,14 +2,16 @@
 /* @jsx h */
 
 import { h, Color } from 'ink'
-import type { App, Cycle, ThemeData } from '../containers/App'
+import type { App, Cycle } from '../containers/App'
 import { SideAlign, MiddleAlign } from './Align'
 import { Blink } from './Blink'
+import { Progress } from './Progress'
 import prettyMs from 'pretty-ms'
 
 export type TimerViewProps = {
   root: App,
   indentLength: number
+  //Progress
 }
 
 /** Converts to string */
@@ -114,43 +116,6 @@ const TimerView = ({ root, indentLength = 2 }: TimerViewProps) => {
         right={<Color {...theme.time}>{nowLabel}</Color>}
       />
     </MiddleAlign>
-  )
-}
-
-export type ProgressProps = {
-  value: number,
-  isDone?: boolean,
-  length: number,
-  theme: { accent: ThemeData, mute: ThemeData }
-}
-
-const Progress = ({
-  value,
-  isDone,
-  length = 40,
-  theme: { accent, mute }
-}: ProgressProps) => {
-  // Cap value to 0..1
-  value = Math.max(Math.min(value, 1), 0)
-
-  if (isDone) {
-    return (
-      <span>
-        <Color {...mute}>{Array(length + 1).join('─')}</Color>
-      </span>
-    )
-  }
-
-  // Length must be at least 1
-  const leftLength = Math.round(value * (length - 1))
-  const rightLength = length - 1 - leftLength
-
-  return (
-    <span>
-      <Color {...accent}>{Array(leftLength + 1).join('━')}</Color>
-      <Color {...accent}>×</Color>
-      <Color {...mute}>{Array(rightLength + 1).join('─')}</Color>
-    </span>
   )
 }
 
