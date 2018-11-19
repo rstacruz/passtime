@@ -4,7 +4,7 @@
 import { h, Component } from 'ink'
 import { TimerView } from '../components/TimerView'
 import { ding } from '../helpers/ding'
-import stringToMs from 'ms'
+import stringToMs from '../helpers/string_to_ms'
 import format from 'date-fns/format'
 
 export type Settings = {
